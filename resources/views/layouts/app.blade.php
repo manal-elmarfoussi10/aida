@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <meta charset="UTF-8">
+    <title>@yield('title', 'Aida')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Chart.js + Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
-    <nav class="bg-gray-800 px-6 py-4 flex justify-between items-center">
-        <div>
-            <a href="/" class="font-bold text-green-400 text-xl">
-                {{ config('app.name', 'Aida') }}
-            </a>
-        </div>
-        <div class="flex items-center space-x-4">
-            @auth
-                <span class="text-gray-200">Hello, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition">
-                        Log Out
-                    </button>
-                </form>
-            @endauth
-            @guest
-                <a href="{{ route('login') }}" class="text-green-400 hover:text-green-300">Login</a>
-            @endguest
-        </div>
-    </nav>
-    
-    <main class="container mx-auto px-4 py-6">
-        @yield('content')
-    </main>
+
+<body class="bg-[#0f0f0f] text-white flex h-screen">
+
+    <!-- Sidebar -->
+    @include('layouts.partials.sidebar')
+
+    <!-- Main Content -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+        @include('layouts.partials.header')
+
+        <main class="p-6 overflow-y-auto bg-[#1a1a1a] flex-1">
+            @yield('content')
+        </main>
+    </div>
+
+    <!-- Init Lucide Icons -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+    </script>
+
+    <!-- Scripts from specific pages -->
+    @stack('scripts')
+    @yield('scripts')
 </body>
 </html>
+
+
